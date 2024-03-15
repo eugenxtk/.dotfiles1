@@ -1,52 +1,63 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Sync local enviroment with remote enviroment
+chmod +x ~/.dotfiles/sync.sh
+~/.dotfiles/sync.sh
 
-# Export nvm completion settings for lukechilds/zsh-nvm plugin
-# Note: This must be exported before the plugin is bundled
-export NVM_DIR=${HOME}/.nvm
-export NVM_COMPLETION=true
+# Set up the prompt
+autoload -Uz promptinit
+promptinit
+prompt adam1
 
-source ${HOME}/.zsh_plugins.sh
+setopt histignorealldups sharehistory
 
-# Bundle zsh plugins via antibody
-alias update-antibody='antibody bundle < $HOME/.zsh_plugins.txt > $HOME/.zsh_plugins.sh'
-# List out all globally installed npm packages
-alias list-npm-globals='npm list -g --depth=0'
-# Adds better handling for `rm` using trash-cli
-# https://github.com/sindresorhus/trash-cli
-# You can empty the trash using the empty-trash command
-# https://github.com/sindresorhus/empty-trash-cli
-alias rm='trash'
-# use neovim instead of vim
-alias vim='nvim'
-# checkout branch using fzf
-alias gcob='git branch | fzf | xargs git checkout'
-# open vim config from anywhere
-alias vimrc='vim ${HOME}/.config/nvim/init.vim'
-# cat -> bat
-alias cat='bat'
-# colored ls output
-alias ls='ls -al --color'
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
 
-# DIRCOLORS (MacOS)
-export CLICOLOR=1
+# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
 
-# FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden --glob '!.git'"
-export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border --margin=1 --padding=1"
+# Use modern completion system
+autoload -Uz compinit
+compinit
 
-# PATH
-# export PATH=${PATH}:/usr/local/go/bin
-# export PATH=${PATH}:${HOME}/go/bin
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
 
-export BAT_THEME="gruvbox-dark"
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# nix
-if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi
+# Fix freezes after accidental CTRL+S clicks
+stty -ixon
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Aliases for frequently used commands (\'command' to use original command instead of alias)
+alias vim="nvim"
+alias ls="ls -la --color"
+alias cls="clear && ls -la --color"
+alias cat="batcat --paging=never --theme=1337"
+alias pcat="batcat -r 0:20 --theme=1337"
+
+# Bindkeys to emulate Windows CTRL behaviour
+bindkey '^H' backward-kill-word
+bindkey ";5C" forward-word
+bindkey ";5D" backward-word
+
+# Option to include hidden files in completion list
+setopt globdots
+
+# Use this for correct Nix execution
+# if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi
+
+if [ -e /home/eugen/.nix-profile/etc/profile.d/nix.sh ]; then . /home/eugen/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
