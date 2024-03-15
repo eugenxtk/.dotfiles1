@@ -1,6 +1,6 @@
 [user]
-	name = Evgeniy Tk.
-	emai = eugenxtk@gmail.com
+	name=Evgeniy
+	email=eugenxtk@gmail.com
 [core]
 	editor = nvim
 [init]
