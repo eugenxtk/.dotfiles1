@@ -6,7 +6,8 @@ NIX_PROFILE_SYMLINK=~/.nix-profile
 
 if [ -L "$NIX_PROFILE_SYMLINK" ]; 
 then
-	echo "Nix already installed, if you want to reinstall it or install new packages configured in '.zshrc', delete '$NIX_PROFILE_SYMLINK' symlink and restart shell.\n" 
+	echo "Nix already installed, if you want to reinstall it or install new packages configured in '.zshrc', delete '$NIX_PROFILE_SYMLINK' symlink and restart shell."
+	echo ""
 else
 	sh <(curl -L https://nixos.org/nix/install) --daemon
 	if ! [ -L "$NIX_PROFILE_SYMLINK" ]; then
