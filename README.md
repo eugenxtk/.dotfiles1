@@ -2,4 +2,4 @@
 
 ### Installation
 
-Execute `source <(curl -s https://github.com/eugenxtk/.dotfiles/blob/main/init.sh)`.
+Execute `source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)`.
