@@ -33,9 +33,16 @@ if ! [[ -d $DOTFILES ]]; then
 fi
 
 # 3. Set up ZSH as default shell
+ZSHRC=$DOTFILES/.zshrc
+ZSHRC_SYMLINK=~/.zshrc
+
 if ! [[ $SHELL == *"zsh"* ]]; then
 	command -v zsh | sudo tee -a /etc/shells
  	sudo chsh -s $(which zsh)
  	echo "Now ZSH is your default shell. You need to restart session to continue."
  	exit 1
+fi
+	
+if ! [[ -L $ZSHRC_SYMLINK ]]; then
+	ln -s $ZSHRC $ZSHRC_SYMLINK
 fi
