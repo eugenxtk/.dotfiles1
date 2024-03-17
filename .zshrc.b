@@ -1,7 +1,3 @@
-# Sync local enviroment with remote enviroment
-chmod +x ~/.dotfiles/sync.sh
-~/.dotfiles/sync.sh
-
 # Set up the prompt
 autoload -Uz promptinit
 promptinit
@@ -35,17 +31,41 @@ zstyle ':completion:*' menu select=long
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
-
+ 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# Option to include hidden files in completion list
+setopt globdots
+
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi
+
+# Set up local enviroment
+export INIT_EXECUTED=~/.dotfiles/init.sh
+
+chmod +x $INIT_EXECUTED
+$INIT_EXECUTED
 
 # Fix freezes after accidental CTRL+S clicks
 stty -ixon
 
+# Stow dotfiles
+cd ~/.dotfiles
+
+if ! [[ -L ~/.zshrc ]]; then
+	ln -s .zshrc ~/.zshrc
+fi
+
+stow git
+stow nvim
+stow tmux
+
+# Install Neovim plugins
+# nvim --headless +PlugInstall +q
+
 # Aliases for frequently used commands (\'command' to use original command instead of alias)
 alias vim="nvim"
-alias ls="ls -la --color"
-alias cls="clear && ls -la --color"
+alias ls="clear && ls -la --color"
 alias cat="batcat --paging=never --theme=1337"
 alias pcat="batcat -r 0:20 --theme=1337"
 
@@ -54,10 +74,15 @@ bindkey '^H' backward-kill-word
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
 
-# Option to include hidden files in completion list
-setopt globdots
+# Install Antigen as ZSH plugin manager with plugins
+if ! [[ -e ~/antigen.zsh ]]; then
+	curl -L git.io/antigen > ~/antigen.zsh
+fi
 
-# Use this for correct Nix execution
-# if [ -e ~/.nix-profile/etc/profile.d/nix.sh ]; then . ~/.nix-profile/etc/profile.d/nix.sh; fi
+source ~/antigen.zsh
 
-if [ -e /home/eugen/.nix-profile/etc/profile.d/nix.sh ]; then . /home/eugen/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions 
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen theme minimal 
+antigen apply
