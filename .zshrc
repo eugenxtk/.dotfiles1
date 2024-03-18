@@ -9,12 +9,13 @@ export NIX_PROFILE=~/.local/state/nix/profiles/profile
 export NIX_PROFILE_SYMLINK=~/.nix-profile 
 
 export DOTFILES=~/.dotfiles
-export DOTFILES_INIT_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
 
 export ANTIGEN=~/antigen.zsh
 export ANTIGEN_DIRECTORY=~/.antigen
 
-alias dotfiles-update="rm -rf $NIX_PROFILE $NIX_PROFILE_SYMLINK $DOTFILES $ANTIGEN $ANTIGEN_DIRECTORY && $DOTFILES_INIT_EXECUTED"
+export INSTALL_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
+
+alias dotfiles-update="rm -rf $NIX_PROFILE $NIX_PROFILE_SYMLINK $DOTFILES $ANTIGEN $ANTIGEN_DIRECTORY && $INSTALL_EXECUTED"
 
 # Fix freezes after accidental CTRL+S clicks
 # stty -ixon
