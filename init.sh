@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install tar
+sudo -s
 
 NIX_PROFILE=~/.local/state/nix/profiles/profile
 NIX_PROFILE_SYMLINK=~/.nix-profile 
