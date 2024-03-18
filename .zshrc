@@ -4,8 +4,20 @@ export INIT_EXECUTED=~/.dotfiles/init.sh
 chmod +x $INIT_EXECUTED
 $INIT_EXECUTED
 
+# Implement update functionality
+export NIX_PROFILE=~/.local/state/nix/profiles/profile
+export NIX_PROFILE_SYMLINK=~/.nix-profile 
+
+export DOTFILES=~/.dotfiles
+export DOTFILES_INIT_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
+
+export ANTIGEN=~/antigen.zsh
+export ANTIGEN_DIRECTORY=~/.antigen
+
+alias dotfiles-update="rm -rf $NIX_PROFILE $NIX_PROFILE_SYMLINK $DOTFILES $ANTIGEN $ANTIGEN_DIRECTORY && $DOTFILES_INIT_EXECUTED"
+
 # Fix freezes after accidental CTRL+S clicks
-stty -ixon
+# stty -ixon
 
 # Stow dotfiles
 cd ~/.dotfiles
@@ -20,20 +32,27 @@ stow tmux
 # Aliases for frequently used commands (\'command' to use original command instead of alias)
 alias vim="nvim"
 alias ls="clear && ls -la --color"
-alias cat="batcat --paging=never --theme=1337"
-alias pcat="batcat -r 0:20 --theme=1337"
 
-# Bindkeys to emulate Windows CTRL behaviour
+export BAT_THEME=1337
+alias cat="batcat --paging=never"
+alias pcat="batcat -r 0:20"
+
+# Bindkeys to emulate Windows and Vim CTRL behaviour
 bindkey '^H' backward-kill-word
 bindkey ";5C" forward-word
 bindkey ";5D" backward-word
+# bindkey CTRL+D
+# bindkey CTRL+U
 
 # Install Antigen as ZSH plugin manager with plugins
-if ! [[ -e ~/antigen.zsh ]]; then
-	curl -L git.io/antigen > ~/antigen.zsh
+export ANTIGEN_REMOTE=git.io/antigen
+
+if ! [[ -e $ANTIGEN ]]; then
+	echo "Installing Antigen as plugin manager with plugins..."
+	curl -L $ANTIGEN_REMOTE > $ANTIGEN 
 fi
 
-source ~/antigen.zsh
+source $ANTIGEN
 
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions 
