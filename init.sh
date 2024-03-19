@@ -1,18 +1,10 @@
 #!/bin/bash
 
-sudo -s
+NIX_PROFILE=~/.nix-profile 
 
-NIX_PROFILE=~/.local/state/nix/profiles/profile
-NIX_PROFILE_SYMLINK=~/.nix-profile 
-
-if ! [[ -L "$NIX_PROFILE_SYMLINK" ]]; then 
+if ! [[ -L "$NIX_PROFILE" ]]; then 
 	echo "Download Nix and packages..."
-	source <(curl -L https://nixos.org/nix/install) --daemon
-	# Delete Nix profile symlink manually if you want to reinstall it
-	if ! [[ -L $NIX_PROFILE_SYMLINK ]]; then
-		echo "Creating Nix profile symlink..."
-		ln -s $NIX_PROFILE $NIX_PROFILE_SYMLINK	
-	fi
+	sh <(curl -L https://nixos.org/nix/install) --no-daemon
 	. $NIX_PROFILE/etc/profile.d/nix.sh
 	nix-env -iA \ 
 		nixpkgs.zsh \

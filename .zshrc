@@ -4,18 +4,14 @@ export INIT_EXECUTED=~/.dotfiles/init.sh
 chmod +x $INIT_EXECUTED
 $INIT_EXECUTED
 
-# Implement update functionality
-export NIX_PROFILE=~/.local/state/nix/profiles/profile
-export NIX_PROFILE_SYMLINK=~/.nix-profile 
-
-export DOTFILES=~/.dotfiles
-
-export ANTIGEN=~/antigen.zsh
-export ANTIGEN_DIRECTORY=~/.antigen
+# Implement update functionality: remove and install from scratch
+export NIX_FILES="/nix ~/.nix* ~/.local/state/nix" 
+export ANTIGEN_FILES="~/.antigen ~/.antigen.zsh"
+export DOTFILES="~/.dotfiles"
 
 export INSTALL_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
 
-alias dotfiles-update="rm -rf $NIX_PROFILE $NIX_PROFILE_SYMLINK $DOTFILES $ANTIGEN $ANTIGEN_DIRECTORY && $INSTALL_EXECUTED"
+alias dotfiles-update="rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && $INSTALL_EXECUTED"
 
 # Fix freezes after accidental CTRL+S clicks
 # stty -ixon
