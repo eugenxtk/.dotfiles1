@@ -20,7 +20,7 @@ if ! [[ -L "$NIX_PROFILE" ]]; then
 fi
 
 DOTFILES=~/.dotfiles
-DOTFILES_REMOTE=git@github.com:eugenxtk/.dotfiles.git
+DOTFILES_REMOTE=https://github.com/eugenxtk/.dotfiles.git
 
 if ! [[ -d $DOTFILES ]]; then
 	echo "Cloning remote repository..."
