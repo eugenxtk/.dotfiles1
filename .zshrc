@@ -11,7 +11,7 @@ export DOTFILES="~/.dotfiles"
 
 export INSTALL_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
 
-alias dotfiles-update="rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && $INSTALL_EXECUTED"
+alias dotfiles-update="sudo rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && $INSTALL_EXECUTED"
 
 # Fix freezes after accidental CTRL+S clicks
 # stty -ixon
