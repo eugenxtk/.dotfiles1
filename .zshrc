@@ -11,9 +11,9 @@ export NIX_FILES="/nix ~/.nix* ~/.local/state/nix"
 export ANTIGEN_FILES="~/.antigen ~/.antigen.zsh"
 export DOTFILES="~/.dotfiles"
 
-export INSTALL_EXECUTED="source <(curl -s https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/init.sh)"
+export INSTALL_SCRIPT="git clone https://github.com/eugenxtk/.dotfiles.git ~/.dotfiles && sudo sh ~/.dotfiles/base.sh"
 
-alias dotfiles-update="sudo rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && sudo apt remove zsh && $INSTALL_EXECUTED"
+alias dotfiles-update="sudo rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && sudo apt remove zsh && $INSTALL_SCRIPT"
 
 # Aliases for frequently used commands (\'command' to use original command instead of alias)
 alias vim="nvim"
