@@ -7,4 +7,5 @@
 
 ### Remove
 
-Use to remove: `sudo rm -rf /nix ~/.nix* ~/.local/state/nix ~/.antigen ~/.antigen.zsh ~/.dotfiles && sudo apt remove zsh`.
+Use to remove: `cd ~ && sudo rm -rf /nix ~/.nix* ~/.local/state/nix ~/.antigen ~/antigen.zsh ~/.dotfiles ~/.zshrc && su
+do apt-get remove -y zsh`.
