@@ -1,5 +1,5 @@
 # Set up base for local enviroment
-export BASE_EXECUTED=~/base.sh
+export BASE_EXECUTED=~/.dotfiles/base.sh
 chmod +x $BASE_EXECUTED && $BASE_EXECUTED
 
 . ~/.nix-profile/etc/profile.d/nix.sh
