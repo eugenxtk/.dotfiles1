@@ -22,6 +22,7 @@ alias ls="clear && ls -la --color"
 export BAT_THEME=1337
 alias cat="bat --paging=never"
 alias pcat="bat -r 0:20"
+alias pscat="bat --paging=never --style=plain"
 
 # Bindkeys to emulate Windows and Vim CTRL behaviour
 bindkey '^H' backward-kill-word
