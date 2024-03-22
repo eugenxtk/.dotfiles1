@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Implement update functionality: remove and install from scratch
+export NIX_FILES="/nix ~/.nix* ~/.local/state/nix"
+export ANTIGEN_FILES="~/.antigen ~/.antigen.zsh"
+export DOTFILES="~/.dotfiles"
+
+export INSTALLATION_SCRIPT="bash $(cd ~ && rm -rf ~/.dotfiles && git clone https://github.com/eugenxtk/.dotfiles.git ~/.dotfiles && bash ~/.dotfiles/base.sh)"
+
+alias dotfiles-update="sudo rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && sudo apt remove zsh && $INSTALLATION_SCRIPT"
+
 NIX_PROFILE=~/.nix-profile
 
 if ! [[ -L "$NIX_PROFILE" ]]; then
