@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DOTFILES=~/.dotfiles
-
 NIX_PROFILE=~/.nix-profile
 
 if ! [[ -L "$NIX_PROFILE" ]]; then
@@ -9,7 +7,7 @@ if ! [[ -L "$NIX_PROFILE" ]]; then
         sh <(curl -L https://nixos.org/nix/install) --no-daemon
 fi
 
-ZSHRC=$DOTFILES/.zshrc
+ZSHRC=~/.dotfiles/.zshrc
 ZSHRC_SYMLINK=~/.zshrc
 
 if [[ -e $ZSHRC_SYMLINK ]]; then
