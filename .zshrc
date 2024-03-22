@@ -30,16 +30,25 @@ bindkey ";5D" backward-word
 # bindkey CTRL+U
 
 # Install Nix packages
-nix-env -iA \
-	nixpkgs.git \
-	nixpkgs.neovim \
-        nixpkgs.tmux \
-        nixpkgs.stow \
-        nixpkgs.fzf \
-        nixpkgs.fd \
-        nixpkgs.ripgrep \
-        nixpkgs.bat \
-        nixpkgs.tree
+	
+export NIX_PACKAGES=(
+	git
+	neovim
+        tmux
+        stow
+        fzf
+        fd
+        ripgrep
+        bat
+        tree
+)
+
+export NIX_INSTALLED=$(nix-env -q)
+
+for pkg ("$NIX_PACKAGES[@]")
+	if ! [[ $NIX_INSTALLED == *$pkg* ]]; then
+		nix-env -iA "nixpkgs.$pkg"
+	fi
 
 # Stow files to push files from '.dotfiles' folder to '~'
 cd ~/.dotfiles
