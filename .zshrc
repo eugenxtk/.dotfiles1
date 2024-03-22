@@ -1,3 +1,6 @@
+# Update dotfiles: remove and install from scratch
+alias dotfiles-update="cd ~ && sudo rm -rf /nix ~/.nix* ~/.local/state/nix ~/.antigen ~/antigen.zsh ~/.dotfiles ~/.zshrc && sudo apt-get remove -y zsh && sudo chsh -s $(which bash) "$USER" && cd ~ && rm -rf ~/.dotfiles && git clone https://github.com/eugenxtk/.dotfiles.git ~/.dotfiles && bash ~/.dotfiles/base.sh"
+
 # Set up base for local enviroment
 export BASE_EXECUTED=~/.dotfiles/base.sh
 chmod +x $BASE_EXECUTED && $BASE_EXECUTED
