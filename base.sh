@@ -9,25 +9,13 @@ if ! [[ -L "$NIX_PROFILE" ]]; then
         sh <(curl -L https://nixos.org/nix/install) --no-daemon
 fi
 
-if ! [[ $(command -v zsh) == *zsh* ]]; then
-        echo "Installing ZSH..."
-        sudo apt install zsh
-fi
-
 ZSHRC=$DOTFILES/.zshrc
-ZSHRC_REMOTE=https://raw.githubusercontent.com/eugenxtk/.dotfiles/main/.zshrc
-
 ZSHRC_SYMLINK=~/.zshrc
 
-if ! [[ -e $ZSHRC ]]; then
-        echo "Getting ZSHRC from remote repository..."
-        curl -L $ZSHRC_REMOTE > $ZSHRC
-
-        if [[ -e $ZSHRC_SYMLINK ]]; then
-                rm $ZSHRC_SYMLINK
-        fi
-        ln -s $ZSHRC $ZSHRC_SYMLINK
+if [[ -e $ZSHRC_SYMLINK ]]; then
+        rm $ZSHRC_SYMLINK
 fi
+ln -s $ZSHRC $ZSHRC_SYMLINK
 
 ANTIGEN=~/antigen.zsh
 ANTIGEN_REMOTE=git.io/antigen
@@ -37,6 +25,10 @@ if ! [[ -e $ANTIGEN ]]; then
         curl -L $ANTIGEN_REMOTE > $ANTIGEN
 fi
 
+if ! [[ $(command -v zsh) == *zsh* ]]; then
+        echo "Installing ZSH..."
+        sudo apt install zsh
+fi
 
 if ! [[ $SHELL == *zsh* ]]; then
         echo "Setting up ZSH as default shell..."
