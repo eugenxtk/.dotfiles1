@@ -6,15 +6,6 @@ chmod +x $BASE_EXECUTED && $BASE_EXECUTED
 
 source ~/antigen.zsh
 
-# Implement update functionality: remove and install from scratch
-export NIX_FILES="/nix ~/.nix* ~/.local/state/nix"
-export ANTIGEN_FILES="~/.antigen ~/.antigen.zsh"
-export DOTFILES="~/.dotfiles"
-
-export INSTALLATION_SCRIPT="bash $(cd ~ && rm -rf ~/.dotfiles && git clone https://github.com/eugenxtk/.dotfiles.git ~/.dotfiles && bash ~/.dotfiles/base.sh)"
-
-alias dotfiles-update="sudo rm -rf $NIX_FILES $ANTIGEN_FILES $DOTFILES && sudo apt remove zsh && $INSTALLATION_SCRIPT"
-
 # Aliases for frequently used commands (\'command' to use original command instead of alias)
 alias vim="nvim"
 alias ls="clear && ls -la --color"
