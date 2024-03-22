@@ -8,3 +8,7 @@
 ### Remove
 
 Use to remove: `cd ~ && sudo rm -rf /nix ~/.nix* ~/.local/state/nix ~/.antigen ~/antigen.zsh ~/.dotfiles ~/.zshrc && sudo apt-get remove -y zsh && sudo chsh -s $(which bash) "$USER"`.
+
+### Update
+
+Use `dotfiles-update` to update.
