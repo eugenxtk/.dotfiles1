@@ -32,5 +32,5 @@ if ! [[ $SHELL == *zsh* ]]; then
         echo "Setting up ZSH as default shell..."
         sudo sh -c "echo $(which zsh) >> /etc/shells"
         sudo chsh -s "$(command -v zsh)" "${USER}"
-        exit 0
+        exit 1
 fi
