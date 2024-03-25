@@ -74,8 +74,10 @@ antigen apply
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
 
-# Windows Terminal Gruvbox theme config
-: '
+# Windows Terminal config data
+: << 'END' 
+	font - JetBrains Mono / 13
+	
 	{
             "background": "#282828",
             "black": "#282828",
@@ -99,4 +101,4 @@ unset ZSH_AUTOSUGGEST_USE_ASYNC
             "white": "#A89984",
             "yellow": "#D79921"
         },
-'
+END
