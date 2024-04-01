@@ -20,7 +20,17 @@ alias ls="clear && ls -la --color"
 export BAT_THEME=1337
 alias cat="bat --paging=never"
 alias pcat="bat -r 0:20"
-alias pscat="bat --paging=never --style=plain"
+alias ccat="bat --paging=never --style=plain"
+
+xxclip()
+{
+	if ! [[ -z $1 ]] 
+	then
+		xclip -selection clipboard -i < $1	
+	else
+		echo "You should pass filename as an argument."
+	fi
+}
 
 # Bindkeys to emulate Windows and Vim CTRL behaviour
 bindkey '^H' backward-kill-word
@@ -35,12 +45,16 @@ export NIX_PACKAGES=(
 	git
 	neovim
         tmux
-        stow
-        fzf
+	stow
+	fzf
         fd
         ripgrep
-        bat
+	bat
         tree
+	xclip
+
+	python3-3.11
+	python312Packages.pip
 )
 
 export NIX_INSTALLED=$(nix-env -q)
@@ -73,32 +87,3 @@ antigen apply
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
-
-# Windows Terminal config data
-: << 'END' 
-	font - JetBrains Mono / 13
-	
-	{
-            "background": "#282828",
-            "black": "#282828",
-            "blue": "#458588",
-            "brightBlack": "#928374",
-            "brightBlue": "#83A598",
-            "brightCyan": "#8EC07C",
-            "brightGreen": "#B8BB26",
-            "brightPurple": "#D3869B",
-            "brightRed": "#FB4934",
-            "brightWhite": "#EBDBB2",
-            "brightYellow": "#FABD2F",
-            "cursorColor": "#7C6F64",
-            "cyan": "#689D6A",
-            "foreground": "#FBF1C7",
-            "green": "#98971A",
-            "name": "Gruvbox Dark",
-            "purple": "#B16286",
-            "red": "#CC241D",
-            "selectionBackground": "#7C6F64",
-            "white": "#A89984",
-            "yellow": "#D79921"
-        },
-END
