@@ -40,30 +40,32 @@ bindkey ";5D" backward-word
 # bindkey CTRL+U
 
 # Install Nix packages
-	
-export NIX_PACKAGES=(
-	git
-	neovim
-        tmux
-	stow
-	fzf
-        fd
-        ripgrep
-	bat
-        tree
-	xclip
 
-	python3-3.11
-	python312Packages.pip
+typeset -A NIX_PACKAGES
+NIX_PACKAGES=(
+	git git
+	docker docker
+	neovim neovim
+	tmux tmux
+	stow stow
+	fzf fzf
+        fd fd
+        ripgrep ripgrep
+	bat bat
+        tree tree
+	xclip xclip
+	python312 python3-3.12
+	python312Packages.pip python3.12-pip
 )
 
-export NIX_INSTALLED=$(nix-env -q)
-
-for pkg ("$NIX_PACKAGES[@]")
-	if ! [[ $NIX_INSTALLED == *$pkg* ]]; then
-		echo "Installing $pkg package..."
-		nix-env -iA "nixpkgs.$pkg"
+for key ("${(@k)NIX_PACKAGES}"); do
+	local PKG=$key 
+	local PKG_NAME=$NIX_PACKAGES[$key]
+	if ! [[ "$(nix-env -q)" == *$PKG_NAME* ]]; then
+		echo "Installing $PKG package..."
+		nix-env -iA "nixpkgs.$PKG"
 	fi
+done
 
 # Stow files to push files from '.dotfiles' folder to '~'
 cd ~/.dotfiles
