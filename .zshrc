@@ -45,6 +45,7 @@ typeset -A NIX_PACKAGES
 NIX_PACKAGES=(
 	git git
 	docker docker
+	docker-compose docker-compose
 	neovim neovim
 	tmux tmux
 	stow stow
