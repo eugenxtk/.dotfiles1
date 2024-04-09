@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Set up base for local enviroment
-export BASE_EXECUTED=~/.dotfiles/base.sh
+BASE_EXECUTED=~/.dotfiles/base.sh
 chmod +x $BASE_EXECUTED && $BASE_EXECUTED
 
 . ~/.nix-profile/etc/profile.d/nix.sh
@@ -24,7 +24,7 @@ alias ccat="bat --paging=never --style=plain"
 
 xxclip()
 {
-	if ! [[ -z $1 ]] 
+	if [[ ! -z $1 ]]; 
 	then
 		xclip -selection clipboard -i < $1	
 	else
@@ -44,10 +44,9 @@ bindkey ";5D" backward-word
 typeset -A NIX_PACKAGES
 NIX_PACKAGES=(
 	git git
-	docker docker
-	docker-compose docker-compose
 	neovim neovim
 	tmux tmux
+	gnumake gnumake
 	stow stow
 	fzf fzf
         fd fd
@@ -67,6 +66,12 @@ for key ("${(@k)NIX_PACKAGES}"); do
 		nix-env -iA "nixpkgs.$PKG"
 	fi
 done
+
+# Install docker
+DOCKER_INSTALL_SCRIPT="install-docker.sh"
+if ! command -v docker > /dev/null; then
+	sudo bash $DOCKER_INSTALL_SCRIPT
+fi
 
 # Stow files to push files from '.dotfiles' folder to '~'
 cd ~/.dotfiles
@@ -90,3 +95,8 @@ antigen apply
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
+
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  tmux set -g status off
+  exec tmux new-session -A -s main
+fi
