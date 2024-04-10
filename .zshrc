@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Set up base for local enviroment
 BASE_EXECUTED=~/.dotfiles/base.sh
 chmod +x $BASE_EXECUTED && $BASE_EXECUTED
@@ -13,14 +6,32 @@ chmod +x $BASE_EXECUTED && $BASE_EXECUTED
 
 source ~/antigen.zsh
 
-# Aliases for frequently used commands (\'command' to use original command instead of alias)
+# Aliases for frequently used commands 
 alias vim="nvim"
-alias ls="clear && ls -la --color"
 
-export BAT_THEME=1337
+alias ls="tput reset && ls -la --color"
+
+cd() 
+{
+	if [[ -z $1 ]]; then
+		echo "cd: You must specify directory"
+		return
+	fi
+	if [[ ! -d $1 ]]; then
+		echo "cd: Specified directory doesn't exist"
+		return
+	fi
+	
+	pwd
+	builtin cd $1
+	ls
+}
+
 alias cat="bat --paging=never"
 alias pcat="bat -r 0:20"
 alias ccat="bat --paging=never --style=plain"
+
+export BAT_THEME=1337
 
 xxclip()
 {
@@ -32,15 +43,7 @@ xxclip()
 	fi
 }
 
-# Bindkeys to emulate Windows and Vim CTRL behaviour
-bindkey '^H' backward-kill-word
-bindkey ";5C" forward-word
-bindkey ";5D" backward-word
-# bindkey CTRL+D
-# bindkey CTRL+U
-
 # Install Nix packages
-
 typeset -A NIX_PACKAGES
 NIX_PACKAGES=(
 	git git
@@ -59,27 +62,31 @@ NIX_PACKAGES=(
 )
 
 for key ("${(@k)NIX_PACKAGES}"); do
-	local PKG=$key 
-	local PKG_NAME=$NIX_PACKAGES[$key]
+	PKG=$key PKG_NAME=$NIX_PACKAGES[$key]
 	if ! [[ "$(nix-env -q)" == *$PKG_NAME* ]]; then
 		echo "Installing $PKG package..."
 		nix-env -iA "nixpkgs.$PKG"
 	fi
 done
 
-# Install docker
-DOCKER_INSTALL_SCRIPT="install-docker.sh"
+# Install Docker
+DOCKER_INSTALL_SCRIPT="docker.sh"
 if ! command -v docker > /dev/null; then
 	sudo bash $DOCKER_INSTALL_SCRIPT
 fi
 
-# Stow files to push files from '.dotfiles' folder to '~'
+# Install Tmux Plugin Manager
+TPM_DIRECTORY=~/.dotfiles/tmux/.tmux/plugins/tpm
+if [[ ! -d $TPM_DIRECTORY ]]; then
+	git clone https://github.com/tmux-plugins/tpm $TPM_DIRECTORY 
+fi
+
+# Push files from '.dotfiles' folder to '~'
 cd ~/.dotfiles
 
 stow git
 stow nvim
 stow tmux
-stow p10k
 stow git
 
 # Install Antigen plugins
@@ -87,16 +94,14 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-antigen theme romkatv/powerlevel10k
-
 antigen apply
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Show hidden files in autocompletion
+setopt globdots
 
-unset ZSH_AUTOSUGGEST_USE_ASYNC
-
+# Run Tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  tmux set -g status off
   exec tmux new-session -A -s main
 fi
+
+cd ~
