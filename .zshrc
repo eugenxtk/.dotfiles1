@@ -1,6 +1,6 @@
 # Set up base for local enviroment
-BASE_EXECUTED=~/.dotfiles/base.sh
-chmod +x $BASE_EXECUTED && $BASE_EXECUTED
+base_executed=~/.dotfiles/base.sh
+chmod +x $base_executed && $base_executed
 
 . ~/.nix-profile/etc/profile.d/nix.sh
 
@@ -9,7 +9,31 @@ source ~/antigen.zsh
 # Aliases for frequently used commands 
 alias vim="nvim"
 
-alias ls="tput reset && ls -la --color"
+pretty_ls()
+{
+	tput reset
+	
+	last_arg=${@[$#]}
+	if ! [[ ${last_arg:0:2} = "--" ]]; then
+		if [[ -d $last_arg ]]; then
+			exa "$@"
+			echo "\n↑\n\n$last_arg\n"
+			pwd
+		else
+			echo "ls: Specified directory doesn't exist"
+			return
+		fi
+	else
+		exa "$@"
+		echo ''
+		pwd
+	fi
+}
+
+
+alias ls="pretty_ls --all --classify"
+alias lls="pretty_ls --all --long"
+alias tr="pretty_ls --all --tree"
 
 cd() 
 {
@@ -22,7 +46,6 @@ cd()
 		return
 	fi
 	
-	pwd
 	builtin cd $1
 	ls
 }
@@ -39,46 +62,40 @@ xxclip()
 	then
 		xclip -selection clipboard -i < $1	
 	else
-		echo "You should pass filename as an argument."
+		echo "xxclip: You must specify filename"
 	fi
 }
 
 # Install Nix packages
-typeset -A NIX_PACKAGES
-NIX_PACKAGES=(
+typeset -A nix_packages
+nix_packages=(
 	git git
 	neovim neovim
 	tmux tmux
 	gnumake gnumake
+	eza eza
 	stow stow
 	fzf fzf
         fd fd
         ripgrep ripgrep
 	bat bat
-        tree tree
 	xclip xclip
 	python312 python3-3.12
 	python312Packages.pip python3.12-pip
 )
 
-for key ("${(@k)NIX_PACKAGES}"); do
-	PKG=$key PKG_NAME=$NIX_PACKAGES[$key]
-	if ! [[ "$(nix-env -q)" == *$PKG_NAME* ]]; then
-		echo "Installing $PKG package..."
-		nix-env -iA "nixpkgs.$PKG"
+for key ("${(@k)nix_packages}"); do
+	pkg=$key pkg_name=$nix_packages[$key]
+	if ! [[ "$(nix-env -q)" == *$pkg_name* ]]; then
+		echo "Installing $pkg package..."
+		nix-env -iA "nixpkgs.$pkg"
 	fi
 done
 
 # Install Docker
-DOCKER_INSTALL_SCRIPT="docker.sh"
+docker_install_script="docker.sh"
 if ! command -v docker > /dev/null; then
-	sudo bash $DOCKER_INSTALL_SCRIPT
-fi
-
-# Install Tmux Plugin Manager
-TPM_DIRECTORY=~/.dotfiles/tmux/.tmux/plugins/tpm
-if [[ ! -d $TPM_DIRECTORY ]]; then
-	git clone https://github.com/tmux-plugins/tpm $TPM_DIRECTORY 
+	sudo bash $docker_install_script
 fi
 
 # Push files from '.dotfiles' folder to '~'
@@ -104,4 +121,5 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] &&
   exec tmux new-session -A -s main
 fi
 
+# Move to `home` directory`
 cd ~
