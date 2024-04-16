@@ -16,9 +16,13 @@ pretty_ls()
 	last_arg=${@[$#]}
 	if ! [[ ${last_arg:0:2} = "--" ]]; then
 		if [[ -d $last_arg ]]; then
-			exa "$@"
+      if ! [[ ${last_arg: -1} = '/' ]]; then
+        last_arg="${last_arg}/"
+      fi
+
+      exa "$@"
 			echo "\n↑\n\n$last_arg\n"
-			pwd
+      echo "$(pwd):"
 		else
 			echo "ls: Specified directory doesn't exist"
 			return
@@ -26,10 +30,15 @@ pretty_ls()
 	else
 		exa "$@"
 		echo ''
-		pwd
+    echo "$(pwd):"
 	fi
 }
 
+mkdircd()
+{
+  mkdir $1
+  cd $1
+}
 
 alias ls="pretty_ls --all --classify"
 alias lls="pretty_ls --all --long"
@@ -73,11 +82,12 @@ nix_packages=(
 	neovim neovim
 	tmux tmux
 	gnumake gnumake
+  # libgcc libgcc
 	eza eza
 	stow stow
 	fzf fzf
-        fd fd
-        ripgrep ripgrep
+  fd fd
+  ripgrep ripgrep
 	bat bat
 	xclip xclip
 	python312 python3-3.12
@@ -99,7 +109,7 @@ if ! command -v docker > /dev/null; then
 fi
 
 # Push files from '.dotfiles' folder to '~'
-cd ~/.dotfiles
+builtin cd ~/.dotfiles
 
 stow git
 stow nvim
@@ -116,10 +126,18 @@ antigen apply
 # Show hidden files in autocompletion
 setopt globdots
 
+# Change prompt style
+export PS1="\$ "
+
+# Add some bindkeys
+# bindkey -v
+
+# bindkey '^?' backward-kill-word
+
 # Run Tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
 
-# Move to `home` directory`
+# Move to `home` directory
 cd ~
