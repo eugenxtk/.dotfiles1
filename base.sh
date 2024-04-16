@@ -15,7 +15,7 @@ if [[ -e $ZSHRC_SYMLINK ]]; then
 fi
 ln -s $ZSHRC $ZSHRC_SYMLINK
 
-ANTIGEN=~/antigen.zsh
+ANTIGEN=~/.dotfiles/antigen.zsh
 ANTIGEN_REMOTE=git.io/antigen
 
 if ! [[ -e $ANTIGEN ]]; then

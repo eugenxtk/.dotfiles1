@@ -91,7 +91,12 @@ require("lazy").setup(plugins, opts)
 
 -- Telescope config
 require("telescope").setup({
-  pickers = { find_files = { hidden = true } }
+  pickers = { 
+    find_files = { hidden = true } 
+  },
+  defaults = {
+    file_ignore_patterns = { ".git" }
+  }
 })
 
 local telescope_builtin = require("telescope.builtin")
@@ -101,14 +106,15 @@ vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})
 -- vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, {})
 
 -- Treesitter config
---[[local treesitter_config = require("nvim-treesitter.configs")
+local treesitter_config = require("nvim-treesitter.configs")
 treesitter_config.setup({
   ensure_installed = { "lua", "vim", "html", "python" },
   highlight = { enable = true },
   indent = { enable = true }
-})]]
+})
 
 -- Lualine config
+require("lualine").setup()
 
 -- Carbon config
 require("carbon").setup()

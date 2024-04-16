@@ -4,7 +4,7 @@ chmod +x $base_executed && $base_executed
 
 . ~/.nix-profile/etc/profile.d/nix.sh
 
-source ~/antigen.zsh
+source ~/.dotfiles/antigen.zsh
 
 # Aliases for frequently used commands 
 alias vim="nvim"
@@ -82,8 +82,8 @@ nix_packages=(
 	neovim neovim
 	tmux tmux
 	gnumake gnumake
-  # libgcc libgcc
-	eza eza
+  gccgo gccgo
+  eza eza
 	stow stow
 	fzf fzf
   fd fd
