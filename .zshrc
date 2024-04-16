@@ -92,6 +92,7 @@ nix_packages=(
 	xclip xclip
 	python312 python3-3.12
 	python312Packages.pip python3.12-pip
+  ruff-lsp ruff-lsp
 )
 
 for key ("${(@k)nix_packages}"); do

@@ -82,6 +82,14 @@ local plugins = {
 
     { 
       "SidOfc/carbon.nvim" 
+    },
+
+    {
+      "nvim-tree/nvim-tree.lua"
+    },
+
+    {
+      "neovim/nvim-lspconfig"
     }
 }
 
@@ -118,3 +126,14 @@ require("lualine").setup()
 
 -- Carbon config
 require("carbon").setup()
+
+-- Tree config
+require("nvim-tree").setup()
+
+local tree_api = require("nvim-tree.api")
+vim.keymap.set('n', '<leader>e', tree_api.tree.toggle, {})
+
+-- LSPs config
+
+-- Python LSP
+require("lspconfig").ruff_lsp.setup {}
