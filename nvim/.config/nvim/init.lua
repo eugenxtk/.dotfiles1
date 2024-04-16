@@ -4,7 +4,7 @@ vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
 vim.cmd("set relativenumber")
 vim.cmd("set mousehide")
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 vim.opt.fillchars = {eob = " "}
 
 -- Apply colorscheme
@@ -90,6 +90,10 @@ local opts = {}
 require("lazy").setup(plugins, opts)
 
 -- Telescope config
+require("telescope").setup({
+  pickers = { find_files = { hidden = true } }
+})
+
 local telescope_builtin = require("telescope.builtin")
 vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})

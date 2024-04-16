@@ -6,7 +6,7 @@ startup_mode = "Fullscreen"
 
 [font]
 size = 16.0
-normal = { family = "JetBrains Mono", style = "Regular" }
+normal = { family = "JetBrainsMono NFM", style = "Regular" }
 
 [keyboard]
 bindings = [
