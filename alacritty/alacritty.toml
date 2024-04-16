@@ -1,0 +1,45 @@
+shell = "wsl"
+
+[window]
+decorations = "None"
+startup_mode = "Fullscreen"
+
+[font]
+size = 16.0
+normal = { family = "JetBrains Mono", style = "Regular" }
+
+[keyboard]
+bindings = [
+	{ key = "C", mods = "Control", action = "Copy" },
+	{ key = "V", mods = "Control", action = "Paste" }
+]
+
+# Apply colorscheme
+
+[colors.primary]
+background = "#131313"
+foreground = "#D6DBE5"
+
+[colors]
+cursor = { cursor = "#B9B9B9" }
+selection = { background = "#1F1F1F" }
+
+[colors.normal]
+black = "#1F1F1F"
+blue = "#2A84D2"
+green = "#2DC55E"
+magenta = "#4E5AB7"
+red = "#F81118"
+white = "#D6DBE5"
+yellow = "#ECBA0F"
+cyan = "#1081D6"
+
+[colors.bright]
+black = "#D6DBE5"
+blue = "#1081D6"
+cyan = "#0F7DDB"
+green = "#1DD361"
+magenta = "#5350B9"
+red = "#DE352E"
+white = "#FFFFFF"
+yellow = "#F3BD09"
