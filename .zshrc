@@ -9,30 +9,30 @@ source ~/antigen.zsh
 # Aliases for frequently used commands 
 alias vim="nvim"
 
-pretty_ls()
-{
-	tput reset
+#pretty_ls()
+#{
+#	# tput reset
 	
-	last_arg=${@[$#]}
-	if ! [[ ${last_arg:0:2} = "--" ]]; then
-		if [[ -d $last_arg ]]; then
-      if ! [[ ${last_arg: -1} = '/' ]]; then
-        last_arg="${last_arg}/"
-      fi
+#	last_arg=${@[$#]}
+#	if ! [[ ${last_arg:0:2} = "--" ]]; then
+#		if [[ -d $last_arg ]]; then
+ #     if ! [[ ${last_arg: -1} = '/' ]]; then
+  #      last_arg="${last_arg}/"
+   #   fi
 
-      exa "$@"
-			echo "\n↑\n\n$last_arg\n"
-      echo "$(pwd):"
-		else
-			echo "ls: Specified directory doesn't exist"
-			return
-		fi
-	else
-		exa "$@"
-		echo ''
-    echo "$(pwd):"
-	fi
-}
+    #  exa "$@"
+	#		echo "\n↑\n\n$last_arg\n"
+     # echo "$(pwd):"
+	#	else
+	#		echo "ls: Specified directory doesn't exist"
+	#		return
+	#	fi
+#	else
+#		exa "$@"
+#		echo ''
+ #   echo "$(pwd):"
+#	fi
+#}
 
 mkdircd()
 {
@@ -135,9 +135,9 @@ export PS1="\$ "
 # bindkey '^?' backward-kill-word
 
 # Run Tmux
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux new-session -A -s main
-fi
+#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#  exec tmux new-session -A -s main
+#fi
 
 # Move to `home` directory
-cd ~
+# cd ~
