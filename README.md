@@ -1,6 +1,6 @@
 # .dotfiles
 
-### Install
+### Install or reinstall
 
 1. Install Git by your package manager (if it's not installed yet).
 
