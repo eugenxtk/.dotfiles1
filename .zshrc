@@ -21,7 +21,7 @@ pretty_ls()
       fi
 
       exa "$@"
-			echo "\n↑\n\n$last_arg\n"
+			echo "\n↑\n\n $last_arg\n"
       echo "$(pwd):"
 		else
 			echo "ls: Specified directory doesn't exist"
@@ -30,7 +30,7 @@ pretty_ls()
 	else
 		exa "$@"
 		echo ''
-    echo "$(pwd):"
+    echo " $(pwd):"
 	fi
 }
 
@@ -40,9 +40,9 @@ mkdircd()
   cd $1
 }
 
-alias ls="pretty_ls --all --classify"
-alias lls="pretty_ls --all --long"
-alias tr="pretty_ls --all --tree"
+alias ls="pretty_ls --icons --all --classify"
+alias lls="pretty_ls --icons --all --long"
+alias tr='pretty_ls --icons --all --tree --ignore-glob=".git"'
 
 cd() 
 {
@@ -92,7 +92,6 @@ nix_packages=(
 	xclip xclip
 	python312 python3-3.12
 	python312Packages.pip python3.12-pip
-  ruff-lsp ruff-lsp
 )
 
 for key ("${(@k)nix_packages}"); do

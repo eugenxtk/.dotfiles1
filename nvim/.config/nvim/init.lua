@@ -5,7 +5,7 @@ vim.cmd("set number")
 vim.cmd("set relativenumber")
 vim.cmd("set mousehide")
 vim.g.mapleader = " "
-vim.opt.fillchars = {eob = " "}
+vim.opt.fillchars = { eob = " " }
 
 -- Apply colorscheme
 vim.cmd([[
@@ -64,38 +64,36 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-    {
-      "nvim-telescope/telescope.nvim", 
-      branch = "0.1.x",
-      dependencies = { "nvim-lua/plenary.nvim" }
-    },
+  { "nvim-lua/plenary.nvim" },
 
-    {
-      "nvim-treesitter/nvim-treesitter", 
-      build = ":TSUpdate"
-    },
+  {
+    "nvim-telescope/telescope.nvim", 
+    branch = "0.1.x",
+  },
+    
+  {
+    "nvim-treesitter/nvim-treesitter", 
+    build = ":TSUpdate"
+  },
 
-    {
-      "nvim-lualine/lualine.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" }
-    },
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" }
+  },
 
-    { 
-      "SidOfc/carbon.nvim" 
-    },
+  { "SidOfc/carbon.nvim" },
 
-    {
-      "nvim-tree/nvim-tree.lua"
-    },
+  { "neovim/nvim-lspconfig" },
+  
+  { "nvim-telescope/telescope-file-browser.nvim" },
 
-    {
-      "neovim/nvim-lspconfig"
-    }
+  { "williamboman/mason.nvim" }
+
+  -- Configure Python LSP
+  
 }
 
-local opts = {}
-
-require("lazy").setup(plugins, opts)
+require("lazy").setup(plugins, {})
 
 -- Telescope config
 require("telescope").setup({
@@ -106,12 +104,16 @@ require("telescope").setup({
     file_ignore_patterns = { ".git" }
   }
 })
+require("telescope").load_extension "file_browser"
 
 local telescope_builtin = require("telescope.builtin")
 vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})
--- vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, {})
--- vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, {})
+
+local telescope_file_browser = require("telescope").extensions.file_browser
+vim.keymap.set('n', '<leader>fb', function()
+  telescope_file_browser.file_browser({ hidden = { file_browser = true } })
+end) 
 
 -- Treesitter config
 local treesitter_config = require("nvim-treesitter.configs")
@@ -122,18 +124,23 @@ treesitter_config.setup({
 })
 
 -- Lualine config
-require("lualine").setup()
+require("lualine").setup {
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { "branch" },
+    lualine_c = { "diff" },
+    lualine_x = { },
+    lualine_y = { "filename", "filetype" },
+    lualine_z = { "location" }
+  },
+  options = { disabled_filetypes = { "carbon.explorer" } }
+}
 
 -- Carbon config
 require("carbon").setup()
 
--- Tree config
-require("nvim-tree").setup()
-
-local tree_api = require("nvim-tree.api")
-vim.keymap.set('n', '<leader>e', tree_api.tree.toggle, {})
-
--- LSPs config
+-- LSPs configs:
+require("mason").setup()
 
 -- Python LSP
 require("lspconfig").ruff_lsp.setup {}
