@@ -13,25 +13,25 @@ pretty_ls()
 {
   tput reset	
 
-	last_arg=${@[$#]}
-	if ! [[ ${last_arg:0:2} = "--" ]]; then
-		if [[ -d $last_arg ]]; then
+  last_arg=${@[$#]}
+  if ! [[ ${last_arg:0:2} = "--" ]]; then
+    if [[ -d $last_arg ]]; then
       if ! [[ ${last_arg: -1} = '/' ]]; then
         last_arg="${last_arg}/"
       fi
 
       exa "$@"
-			echo "\n↑\n\n $last_arg\n"
+      echo "\n↑\n\n $last_arg\n"
       echo "$(pwd):"
-		else
-			echo "ls: Specified directory doesn't exist"
-			return
-		fi
-	else
-		exa "$@"
-		echo ''
+    else
+      echo "ls: Specified directory doesn't exist"
+      return
+    fi
+  else
+    exa "$@"
+    echo ''
     echo " $(pwd):"
-	fi
+  fi
 }
 
 mkdircd()
@@ -46,17 +46,17 @@ alias tr='pretty_ls --icons --all --tree --ignore-glob=".git"'
 
 cd() 
 {
-	if [[ -z $1 ]]; then
-		echo "cd: You must specify directory"
-		return
-	fi
-	if [[ ! -d $1 ]]; then
-		echo "cd: Specified directory doesn't exist"
-		return
-	fi
-	
-	builtin cd $1
-	ls
+  if [[ -z $1 ]]; then
+    echo "cd: You must specify directory"
+    return
+  fi
+  if [[ ! -d $1 ]]; then
+    echo "cd: Specified directory doesn't exist"
+    return
+  fi
+
+  builtin cd $1
+  ls
 }
 
 alias cat="bat --paging=never"
@@ -67,45 +67,45 @@ export BAT_THEME=1337
 
 xxclip()
 {
-	if [[ ! -z $1 ]]; 
-	then
-		xclip -selection clipboard -i < $1	
-	else
-		echo "xxclip: You must specify filename"
-	fi
+  if [[ ! -z $1 ]]; 
+  then
+    xclip -selection clipboard -i < $1	
+  else
+    echo "xxclip: You must specify filename"
+  fi
 }
 
 # Install Nix packages
 typeset -A nix_packages
 nix_packages=(
-	git git
-	neovim neovim
-	tmux tmux
-	gnumake gnumake
+  git git
+  neovim neovim
+  tmux tmux
+  gnumake gnumake
   gccgo gccgo
   eza eza
-	stow stow
-	fzf fzf
+  stow stow
+  fzf fzf
   fd fd
   ripgrep ripgrep
-	bat bat
-	xclip xclip
-	python312 python3-3.12
-	python312Packages.pip python3.12-pip
+  bat bat
+  xclip xclip
+  python312 python3-3.12
+  python312Packages.pip python3.12-pip
 )
 
 for key ("${(@k)nix_packages}"); do
-	pkg=$key pkg_name=$nix_packages[$key]
-	if ! [[ "$(nix-env -q)" == *$pkg_name* ]]; then
-		echo "Installing $pkg package..."
-		nix-env -iA "nixpkgs.$pkg"
-	fi
+  pkg=$key pkg_name=$nix_packages[$key]
+  if ! [[ "$(nix-env -q)" == *$pkg_name* ]]; then
+    echo "Installing $pkg package..."
+    nix-env -iA "nixpkgs.$pkg"
+  fi
 done
 
 # Install Docker
 docker_install_script="docker.sh"
 if ! command -v docker > /dev/null; then
-	sudo bash $docker_install_script
+  sudo bash $docker_install_script
 fi
 
 # Push files from '.dotfiles' folder to '~'
