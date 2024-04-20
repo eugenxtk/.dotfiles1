@@ -1,3 +1,3 @@
 require("core")
 require("colorscheme")
-require("loader")
+require("plugins-loader")
