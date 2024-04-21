@@ -11,13 +11,18 @@ return {
         find_files = { hidden = true } 
       },
       defaults = {
-        file_ignore_patterns = { ".git" }
+        file_ignore_patterns = { ".git" },
+        layout_config = {
+          horizontal = {
+            preview_cutoff = 0
+          }
+        }
       }
     })
 
     local telescope_builtin = require("telescope.builtin")
-    require("telescope").load_extension "file_browser"
-    
+    require("telescope").load_extension("file_browser")
+   
     local telescope_file_browser = require("telescope").extensions.file_browser
 
     vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
