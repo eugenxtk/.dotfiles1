@@ -32,6 +32,11 @@ vim.cmd([[
   hi String          guifg=#fbe3bf guibg=None guisp=None gui=None ctermfg=223 ctermbg=None cterm=None
   hi Type            guifg=#8cdaff guibg=None guisp=None gui=None ctermfg=117 ctermbg=None cterm=None
   hi Visual          guifg=None guibg=#515151 guisp=None gui=None ctermfg=None ctermbg=239 cterm=None
+  
+  hi TabLineFill ctermfg=234 ctermbg=234
+  hi TabLineSel ctermfg=255 ctermbg=234 cterm=underline
+  hi TabLine ctermfg=255 ctermbg=234 cterm=none gui=none
+
 
   hi link Conditional Keyword
   hi link Repeat Keyword

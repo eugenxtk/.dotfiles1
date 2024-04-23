@@ -40,8 +40,8 @@ mkdircd()
   cd $1
 }
 
-alias ls="pretty_ls --icons --all --classify"
-alias lls="pretty_ls --icons --all --long"
+alias sls="pretty_ls --icons --all --classify"
+alias ls="pretty_ls --icons --all --long"
 alias tr='pretty_ls --icons --all --tree --ignore-glob=".git"'
 
 cd() 
@@ -56,7 +56,7 @@ cd()
   fi
 
   builtin cd $1
-  ls
+  sls
 }
 
 alias cat="bat --paging=never"
