@@ -34,12 +34,12 @@ pretty_ls()
   fi
 }
 
-mkdircd()
-{
-  mkdir $1
-  cd $1
-}
+alias cat="bat --paging=never"
+alias pcat="bat -r 0:20"
+alias ccat="bat --paging=never --style=plain"
+alias fcat="bat -r 0:20 *"
 
+export BAT_THEME=1337
 alias sls="pretty_ls --icons --all --classify"
 alias ls="pretty_ls --icons --all --long"
 alias tr='pretty_ls --icons --all --tree --ignore-glob=".git"'
@@ -57,22 +57,6 @@ cd()
 
   builtin cd $1
   sls
-}
-
-alias cat="bat --paging=never"
-alias pcat="bat -r 0:20"
-alias ccat="bat --paging=never --style=plain"
-
-export BAT_THEME=1337
-
-xxclip()
-{
-  if [[ ! -z $1 ]]; 
-  then
-    xclip -selection clipboard -i < $1	
-  else
-    echo "xxclip: You must specify filename"
-  fi
 }
 
 # Install Nix packages
