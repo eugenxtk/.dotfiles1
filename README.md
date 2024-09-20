@@ -1,4 +1,19 @@
+
+
 # .dotfiles
+
+### Sync local system with repository
+
+1. Install Git by any package manager, if it's not yet installed.
+
+2. Execute ``.
+
+### Remove all repository files
+
+Execute ``.
+
+-----
+
 
 ### Install or reinstall
 
