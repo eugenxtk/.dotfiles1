@@ -8,7 +8,7 @@
 
 2. Execute ``.
 
-### Remove all repository files
+### Remove all repository files from local system
 
 Execute ``.
 
