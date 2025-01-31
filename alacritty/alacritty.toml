@@ -1,8 +1,8 @@
-shell = "wsl"
+terminal.shell = "wsl"
 
 [window]
-decorations = "None"
-startup_mode = "Fullscreen"
+startup_mode = "Maximized"
+dynamic_title = false
 
 [font]
 size = 16.0
@@ -11,7 +11,8 @@ normal = { family = "JetBrainsMono NFM", style = "Regular" }
 [keyboard]
 bindings = [
 	{ key = "C", mods = "Control|Shift", action = "Copy" },
-	{ key = "V", mods = "Control", action = "Paste" }
+	{ key = "V", mods = "Control|Shift", action = "Paste" },	
+	{ key = "Back", mods = "Control", chars = "\u001b\u007f" },
 ]
 
 # Apply colorscheme
